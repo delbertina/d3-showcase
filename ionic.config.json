@@ -1,0 +1,7 @@
+{
+  "name": "d3-showcase",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
