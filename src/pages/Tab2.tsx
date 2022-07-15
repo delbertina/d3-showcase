@@ -21,14 +21,32 @@ const Tab2: React.FC = () => {
   const color = d3.interpolateRgbBasis(["lime", "forest"]);  
 
   useIonViewDidEnter(() => {
-    const svg = d3.select("#chart").append("svg:svg")
-    .attr("viewBox", [0, 0, width, height]).on("click", reset);
+    const svg = d3.select("#chart")
+    .append("div")
+    // Container class to make it responsive.
+    .classed("svg-container", true) 
+    .append("svg")
+    // Responsive SVG needs these 2 attributes and no width and height attr.
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 600 400")
+    // Class to make it responsive.
+    .classed("svg-content-responsive", true)
+    // Fill with a rectangle for visualization.
+    // .append("rect")
+    // .classed("rect", true)
+    // .attr("width", 600)
+    // .attr("height", 400)
+    // .append("svg:svg")
+    // .attr("viewBox", [0, 0, width, height])
+    .on("click", reset);
 
     const g = svg.append("g");
 
     const zoom = d3.zoom()
       .scaleExtent([1, 8])
       .on("zoom", zoomed);
+    
+    svg.call(zoom);
 
     const circles = g.append("g")
     .selectAll("circle")
