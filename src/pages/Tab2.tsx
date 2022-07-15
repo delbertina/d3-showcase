@@ -55,7 +55,7 @@ const Tab2: React.FC = () => {
   
     function clicked(event: any, d: any) {
       console.log('clicked', event, d);
-      const [[x0, y0], [x1, y1]] = d3.geoBounds(d);
+      const [[x0, y0], [x1, y1]] = [[d[0], d[1]], [d[0], d[1]]];
       event.stopPropagation();
       circles.transition().style("fill", null);
       d3.select(this).transition().style("fill", "red");
