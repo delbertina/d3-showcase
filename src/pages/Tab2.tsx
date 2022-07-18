@@ -48,21 +48,74 @@ const Tab2: React.FC = () => {
     
     svg.call(zoom);
 
+    var mouseover = function(d) {
+      tooltip
+        .transition()
+        .duration(500)
+        .style("opacity", 1);
+      tooltip
+        .html("<h6>Annotations</h6><p>- annotation 1<br>- annotation 2<br>- annotation 3</p><button>Add Annotation</button>")
+        // .html("The exact value of<br>this cell is: " + 0)
+        .style("top", (height/2)+"px")
+        .style("left",(width/2)+"px")
+        // .style("top", (d.pageY)+"px")
+        // .style("left",(d.pageX)+"px")
+      d3.select(this)
+        .style("stroke", "black")
+        .style("opacity", 1)
+    }
+    // var mousemove = function(event, d) {
+    //   tooltip
+    //     .html("The exact value of<br>this cell is: " + 0)
+    //     // .style("top", (100)+"px")
+    //     // .style("left",(100)+"px")
+    //     .style("top", (event.pageY)+"px")
+    //     .style("left",(event.pageX)+"px")
+    //     // .style("top", d3.select(this).attr("cy") + "px")
+    //     // .style("left", d3.select(this).attr("cx") + "px")
+    //     // .style("left", (d3.pointer(d)[0]+70) + "px")
+    //     // .style("top", (d3.pointer(d)[1]) + "px")
+    // }
+    var mouseleave = function() {
+      tooltip
+        .transition()
+        .duration(500)
+        .style("opacity", 0)
+      d3.select(this)
+        .style("stroke", "none")
+        .style("opacity", 0.8)
+    }
+
     const circles = g.append("g")
-    .selectAll("circle")
-    .data(data)
-    .join("circle")
-        .attr("cx", ([x]) => x)
-        .attr("cy", ([, y]) => y)
-        .attr("r", radius)
-        .attr("fill", (d, i) => color(i / 250))
-        .attr("cursor", "pointer")
-        .on("click", clicked)
-        // .on("click", (event: any) => {console.log('Clicked', event); zoom(event); event?.stopPropagation()});
+      .selectAll("circle")
+      .data(data)
+      .join("circle")
+      .attr("cx", ([x]) => x)
+      .attr("cy", ([,y]) => y)
+      .attr("r", radius)
+      .attr("fill", (d, i) => color(i / 250))
+      .attr("cursor", "pointer")
+      .on("click", clicked)
+      // .on("mouseover", mouseover)
+      // .on("mousemove", mousemove)
+      // .on("mouseleave", mouseleave);
+
+    const tooltip = d3.select("#chart")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("position", "absolute")
+      .style("background-color", "white")
+      .style("color", "black")
+      .style("border", "solid")
+      .style("border-width", "2px")
+      .style("border-radius", "5px")
+      .style("padding", "5px");    
 
     function reset() {
       console.log('reset');
-      circles.transition().style("fill", null);
+      mouseleave();
+      circles.transition().style("stroke", null);
       svg.transition().duration(750).call(
         /* @ts-ignore */
         zoom.transform,
@@ -75,8 +128,8 @@ const Tab2: React.FC = () => {
       console.log('clicked', event, d);
       const [[x0, y0], [x1, y1]] = [[d[0], d[1]], [d[0], d[1]]];
       event.stopPropagation();
-      circles.transition().style("fill", null);
-      d3.select(this).transition().style("fill", "red");
+      circles.transition().style("stroke", null);
+      d3.select(this).transition().style("stroke", "white");
       svg.transition().duration(750).call(
         /* @ts-ignore */
         zoom.transform,
@@ -85,7 +138,7 @@ const Tab2: React.FC = () => {
           .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
           .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
         d3.pointer(event, svg.node())
-      );
+      ).on('end',() => {console.log('After Click', event, svg.node()); mouseover(event);});
     }
   
     function zoomed(event: any) {
