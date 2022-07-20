@@ -65,16 +65,34 @@ const Tab1: React.FC = () => {
       .enter().append("g")
       .attr("class", "row");
     
+    // var column = row.selectAll(".square")
+    //   .data((d) => { return d; })
+    //   .enter().append("rect")
+    //   .attr("class","square")
+    //   .attr("x", (d: any) => { return d.x; })
+    //   .attr("y", (d: any) => { return d.y; })
+    //   .attr("width", (d: any) => { return d.width; })
+    //   .attr("height", (d: any) => { return d.height; })
+    //   // .style("fill", "#fff")
+    //   .style("stroke", "#222");
+
     var column = row.selectAll(".square")
-    .data((d) => { return d; })
-    .enter().append("rect")
-    .attr("class","square")
-    .attr("x", (d: any) => { return d.x; })
-    .attr("y", (d: any) => { return d.y; })
-    .attr("width", (d: any) => { return d.width; })
-    .attr("height", (d: any) => { return d.height; })
-    .style("fill", "#fff")
-    .style("stroke", "#222");
+      .data((d) => d).enter()
+      .append("svg:image")
+      .attr("x", (d: any) => d.x)
+      .attr("y", (d: any) => d.y)
+      // .attr('x', -9)
+      // .attr('y', -12)
+      .attr('width', 20)
+      .attr('height', 24)
+      .attr("xlink:href", "https://i.imgur.com/f2tcdIW.png")
+      // .attr("xlink:href", `${process.env.PUBLIC_URL}/assets/square-solid.svg`)
+    // column.append("image")
+    //   .attr("xlink:href", () => "https://i.imgur.com/f2tcdIW.png")
+    //   .attr("x", "-12px")
+    //   .attr("y", "-12px")
+    //   .attr("width", "24px")
+    //   .attr("height", "24px");
   });
 
   return (
