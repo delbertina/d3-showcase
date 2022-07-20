@@ -30,10 +30,15 @@ const Tab1: React.FC = () => {
     // });
     
     function gridData() {
-      var xpos = 1; //starting xpos and ypos at 1 so the stroke will show when we make the grid below
-      var ypos = 250;
-      var width = 50;
-      var height = 50;
+      let xpos = 1; //starting xpos and ypos at 1 so the stroke will show when we make the grid below
+      let ypos = 250;
+      const widthSpacing = 30;
+      const width = 50;
+      const height = 50;
+      const bluePipe = "https://i.imgur.com/M2Bl8yK.png";
+      const yellowPipe = "https://i.imgur.com/J1d6i60.png";
+      const orangePipe = "https://i.imgur.com/jezxggE.png";
+      const redPipe = "https://i.imgur.com/sp0gL0f.png";
       var data = new Array();
   
       // iterate for rows 
@@ -41,15 +46,16 @@ const Tab1: React.FC = () => {
           data.push( new Array() );
   
           // iterate for cells/columns inside rows
-          for (var column = 0; column < 10; column++) {
+          for (var column = 0; column < 16; column++) {
               data[row].push({
                   x: xpos,
                   y: ypos,
                   width: width,
-                  height: height
+                  height: height,
+                  url: column % 4 === 0 ? yellowPipe : column % 5 === 0 ? orangePipe : column % 6 === 0 ? redPipe : bluePipe
               })
               // increment the x position. I.e. move it over by 50 (width variable)
-              xpos += width;
+              xpos += widthSpacing;
           }
           // reset the x position after a row is complete
           xpos = 1;
@@ -83,9 +89,9 @@ const Tab1: React.FC = () => {
       .attr("y", (d: any) => d.y)
       // .attr('x', -9)
       // .attr('y', -12)
-      .attr('width', 20)
-      .attr('height', 24)
-      .attr("xlink:href", "https://i.imgur.com/f2tcdIW.png")
+      .attr('width', 50)
+      .attr('height', 50)
+      .attr("xlink:href", (d: any) => d.url)
       // .attr("xlink:href", `${process.env.PUBLIC_URL}/assets/square-solid.svg`)
     // column.append("image")
     //   .attr("xlink:href", () => "https://i.imgur.com/f2tcdIW.png")
