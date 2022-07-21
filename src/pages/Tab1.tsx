@@ -16,18 +16,6 @@ const Tab1: React.FC = () => {
     .attr("viewBox", "0 0 500 500")
     // Class to make it responsive.
     .classed("svg-content-responsive", true)
-
-    //
-    // ------------------------
-    //
-    // d3.xml("./person.svg",  "image/svg+xml", (error, frag) => {
-    //   var node = frag.getElementsByTagName("g")[0];
-    //   icon = function(){
-    //     return node.cloneNode(true);
-    //   }
-    //   //use plain Javascript to extract the node
-    //   update();
-    // });
     
     function gridData() {
       let xpos = 1; //starting xpos and ypos at 1 so the stroke will show when we make the grid below
@@ -66,21 +54,24 @@ const Tab1: React.FC = () => {
     }
     const gridItems = gridData();
 
-    const row = svg.selectAll(".row")
+    const g = svg.append("g");
+
+    const zoom = d3.zoom()
+      .scaleExtent([1, 8])
+      .on("zoom", zoomed);
+    
+    svg.call(zoom);
+
+    function zoomed(event: any) {
+      const {transform} = event;
+      g.attr("transform", transform);
+      g.attr("stroke-width", 1 / transform.k);
+    }
+
+    const row = g.selectAll(".row")
       .data(gridItems)
       .enter().append("g")
       .attr("class", "row");
-    
-    // var column = row.selectAll(".square")
-    //   .data((d) => { return d; })
-    //   .enter().append("rect")
-    //   .attr("class","square")
-    //   .attr("x", (d: any) => { return d.x; })
-    //   .attr("y", (d: any) => { return d.y; })
-    //   .attr("width", (d: any) => { return d.width; })
-    //   .attr("height", (d: any) => { return d.height; })
-    //   // .style("fill", "#fff")
-    //   .style("stroke", "#222");
 
     var column = row.selectAll(".square")
       .data((d) => d).enter()
@@ -93,12 +84,6 @@ const Tab1: React.FC = () => {
       .attr('height', 50)
       .attr("xlink:href", (d: any) => d.url)
       // .attr("xlink:href", `${process.env.PUBLIC_URL}/assets/square-solid.svg`)
-    // column.append("image")
-    //   .attr("xlink:href", () => "https://i.imgur.com/f2tcdIW.png")
-    //   .attr("x", "-12px")
-    //   .attr("y", "-12px")
-    //   .attr("width", "24px")
-    //   .attr("height", "24px");
   });
 
   return (
