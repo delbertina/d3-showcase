@@ -46,9 +46,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -70,8 +68,6 @@
   },
   "devDependencies": {
     "@capacitor/cli": "3.6.0",
-    "@types/d3": "^7.4.0",
-    "gh-pages": "^4.0.0"
-  },
-  "description": "An Ionic project"
+    "@types/d3": "^7.4.0"
+  }
 }
