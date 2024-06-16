@@ -1,12 +1,16 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonViewDidEnter } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonViewDidEnter, useIonViewDidLeave } from '@ionic/react';
 import './Tab1.css';
 import * as d3 from 'd3';
 
 const Tab1: React.FC = () => {
-  const color = d3.interpolateRgbBasis(["lime", "forest"]);  
+  // const color = d3.interpolateRgbBasis(["lime", "forest"]);  
+
+  useIonViewDidLeave(() => {
+    d3.select("#chart-tab1").selectAll("*").remove();
+  })
 
   useIonViewDidEnter(() => {
-    const svg = d3.select("#chart")
+    const svg = d3.select("#chart-tab1")
     .append("div")
     // Container class to make it responsive.
     .classed("svg-container", true) 
@@ -27,11 +31,11 @@ const Tab1: React.FC = () => {
       const yellowPipe = "https://i.imgur.com/J1d6i60.png";
       const orangePipe = "https://i.imgur.com/jezxggE.png";
       const redPipe = "https://i.imgur.com/sp0gL0f.png";
-      var data = new Array();
+      var data = [];
   
       // iterate for rows 
       for (var row = 0; row < 1; row++) {
-          data.push( new Array() );
+          data.push( [] );
   
           // iterate for cells/columns inside rows
           for (var column = 0; column < 16; column++) {
@@ -73,7 +77,7 @@ const Tab1: React.FC = () => {
       .enter().append("g")
       .attr("class", "row");
 
-    var column = row.selectAll(".square")
+    row.selectAll(".square")
       .data((d) => d).enter()
       .append("svg:image")
       .attr("x", (d: any) => d.x)
@@ -99,7 +103,7 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <div id="chart"></div>
+        <div id="chart-tab1"></div>
       </IonContent>
     </IonPage>
   );

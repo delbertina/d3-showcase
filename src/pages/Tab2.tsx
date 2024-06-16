@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonViewDidEnter } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonViewDidEnter, useIonViewDidLeave } from '@ionic/react';
 import './Tab2.css';
 import * as d3 from 'd3';
 
@@ -19,8 +19,12 @@ const Tab2: React.FC = () => {
 
   const color = d3.interpolateRgbBasis(["lime", "forest"]);  
 
+  useIonViewDidLeave(() => {
+    d3.select("#chart-tab2").selectAll("*").remove();
+  })
+
   useIonViewDidEnter(() => {
-    const svg = d3.select("#chart")
+    const svg = d3.select("#chart-tab2")
     .append("div")
     // Container class to make it responsive.
     .classed("svg-container", true) 
@@ -132,7 +136,7 @@ const Tab2: React.FC = () => {
             <IonTitle size="large">Tab 2</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <div id="chart"></div>
+        <div id="chart-tab2"></div>
       </IonContent>
     </IonPage>
   );
