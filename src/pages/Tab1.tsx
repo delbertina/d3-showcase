@@ -3,14 +3,14 @@ import './Tab1.css';
 import * as d3 from 'd3';
 
 const Tab1: React.FC = () => {
-  // const color = d3.interpolateRgbBasis(["lime", "forest"]);  
+  const chartID = "chart-tab1";
 
   useIonViewDidLeave(() => {
-    d3.select("#chart-tab1").selectAll("*").remove();
+    d3.select("#" + chartID).selectAll("*").remove();
   })
 
   useIonViewDidEnter(() => {
-    const svg = d3.select("#chart-tab1")
+    const svg = d3.select("#" + chartID)
     .append("div")
     // Container class to make it responsive.
     .classed("svg-container", true) 
@@ -82,12 +82,9 @@ const Tab1: React.FC = () => {
       .append("svg:image")
       .attr("x", (d: any) => d.x)
       .attr("y", (d: any) => d.y)
-      // .attr('x', -9)
-      // .attr('y', -12)
       .attr('width', 50)
       .attr('height', 50)
       .attr("xlink:href", (d: any) => d.url)
-      // .attr("xlink:href", `${process.env.PUBLIC_URL}/assets/square-solid.svg`)
   });
 
   return (
@@ -103,7 +100,7 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <div id="chart-tab1"></div>
+        <div id={chartID}></div>
       </IonContent>
     </IonPage>
   );

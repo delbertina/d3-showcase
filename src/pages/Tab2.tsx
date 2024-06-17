@@ -3,6 +3,7 @@ import './Tab2.css';
 import * as d3 from 'd3';
 
 const Tab2: React.FC = () => {
+  const chartID = "chart-tab2";
   const width = 500;
   const height = 500;
   const theta = 2.399963229728653;
@@ -20,11 +21,11 @@ const Tab2: React.FC = () => {
   const color = d3.interpolateRgbBasis(["lime", "forest"]);  
 
   useIonViewDidLeave(() => {
-    d3.select("#chart-tab2").selectAll("*").remove();
+    d3.select("#" + chartID).selectAll("*").remove();
   })
 
   useIonViewDidEnter(() => {
-    const svg = d3.select("#chart-tab2")
+    const svg = d3.select("#" + chartID)
     .append("div")
     // Container class to make it responsive.
     .classed("svg-container", true) 
@@ -79,7 +80,7 @@ const Tab2: React.FC = () => {
       .attr("cursor", "pointer")
       .on("click", clicked);
 
-    const tooltip = d3.select("#chart")
+    const tooltip = d3.select("#" + chartID)
       .append("div")
       .style("opacity", 0)
       .attr("class", "tooltip")
@@ -136,7 +137,7 @@ const Tab2: React.FC = () => {
             <IonTitle size="large">Tab 2</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <div id="chart-tab2"></div>
+        <div id={chartID}></div>
       </IonContent>
     </IonPage>
   );
